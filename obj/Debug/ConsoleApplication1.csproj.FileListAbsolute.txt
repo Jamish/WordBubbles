@@ -1,0 +1,6 @@
+c:\users\jamison\github\WordBubbles\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
+C:\Users\Jamison\github\WordBubbles\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
+C:\Users\Jamison\github\WordBubbles\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
+C:\Users\Jamison\github\WordBubbles\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
+C:\Users\Jamison\github\WordBubbles\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
+C:\Users\Jamison\github\WordBubbles\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
