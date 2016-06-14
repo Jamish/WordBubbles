@@ -14,7 +14,6 @@ namespace ConsoleApplication1
 
             Console.WriteLine("Enter each row of bubbles using a space as a blank bubble (hit 'return' between each one). When finished, hit return (with a blank line) to continue.\n");
 
-
             var rows = new List<string>();
             string input = null;
             while (input != "")
@@ -60,14 +59,14 @@ namespace ConsoleApplication1
                     break;
                 }
             }
+
             
             Console.Clear();
-
+            Console.WriteLine("Solving...");
             List<string> solutions = wb.Solve();
-
+            Console.Clear();
+            Console.WriteLine("Solutions:");
             solutions.ForEach(solution => Console.WriteLine(solution));
-
-
             Console.ReadLine();
         }
     }

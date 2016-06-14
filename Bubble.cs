@@ -8,6 +8,15 @@ namespace ConsoleApplication1
 {
     class Bubble
     {
+
+        /*
+         * Coordinates and letter values for blank space bubbles, used to split words. 
+         * Obviously, the character between words is a space
+         * Blank coordinates are special because the end of one word and the start of another do not have to be adjacent.
+         */
+        const int blank_coordinate = -1;
+        public const char blank_char = ' ';
+
         public char Letter { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
@@ -21,8 +30,7 @@ namespace ConsoleApplication1
 
         public bool IsAdjacentTo(Bubble other)
         {
-            // -1, -1 is for blank space bubbles, used to split words
-            if (other.X == -1 && other.Y == -1)
+            if (other.X == blank_coordinate && other.Y == blank_coordinate)
             {
                 return true;
             }
@@ -30,11 +38,9 @@ namespace ConsoleApplication1
             return Math.Abs(X - other.X) <= 1 && Math.Abs(Y - other.Y) <= 1;
         }
 
-
-
         public static Bubble BlankBubble()
         {
-            return new Bubble(' ', -1, -1);
+            return new Bubble(blank_char, blank_coordinate, blank_coordinate);
         }
     }
 }

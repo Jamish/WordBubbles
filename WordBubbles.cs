@@ -9,71 +9,76 @@ namespace ConsoleApplication1
 {
     class WordBubbles
     {
-        private List<string> dictionary;
+        private HashSet<string> dictionary;
+
+        // All bubbles that make up the puzzle
         public List<Bubble> Bubbles { get; set; }
+
+        // The length of each word that we are solving for
         public List<int> Blanks { get; set; }
 
         public WordBubbles()
         {
-            dictionary = File.ReadAllText("words.txt").Split(new string[] { Environment.NewLine }, System.StringSplitOptions.None).ToList();
+            dictionary = new HashSet<string>(File.ReadAllText("words.txt").Split(new string[] { Environment.NewLine }, System.StringSplitOptions.None).Distinct());
         }
 
         public List<string> Solve()
         {
-            var potentialSolutions = RecurseForBlank(new List<Bubble>(), Bubbles, 0);
-
-
-            // return potentialSolutions.Select(phrase => GetString(phrase)).Where(phrase => phrase.Split(' ').All(word => dictionary.Contains(word)))).toList();
-
+            var potentialSolutions = Recurse(new List<Bubble>(), Bubbles);
             var solutions = potentialSolutions.Where(phrase => GetString(phrase).Split(' ').All(word => dictionary.Contains(word))).ToList();
 
             return solutions.Select(phrase => GetString(phrase)).ToList();
         }
 
-        private List<List<Bubble>> RecurseForBlank(List<Bubble> word, List<Bubble> remainingBubbles, int i)
+        private List<List<Bubble>> Recurse(List<Bubble> phrase, List<Bubble> remainingBubbles, int currentWordToSolve = 0)
         {
             var results = new List<List<Bubble>>();
-            var currentLength = GetString(word).Split(' ').Last().Length;
-            if (currentLength < Blanks[i])
+            var currentWordLength = GetString(phrase).Split(' ').Last().Length;
+
+
+            if (currentWordLength < Blanks[currentWordToSolve])
             {
+                // If the word isn't finished, then find all potential bubbles that can form the next letter of the word.
                 var remainingAdjacentBubbles = remainingBubbles;
-                if (word.Count > 0)
+                if (phrase.Count > 0)
                 {
-                    remainingAdjacentBubbles = remainingBubbles.Where(x => x.IsAdjacentTo(word.Last())).ToList();
+                    remainingAdjacentBubbles = remainingBubbles.Where(x => x.IsAdjacentTo(phrase.Last())).ToList();
                 }
 
                 foreach (Bubble bubble in remainingAdjacentBubbles)
                 {
-                    var nextWord = new List<Bubble>(word);
-                    nextWord.Add(bubble);
+                    var nextPhrase = new List<Bubble>(phrase);
+                    nextPhrase.Add(bubble);
 
                     var nextRemainingBubbles = new List<Bubble>(remainingBubbles);
                     nextRemainingBubbles.Remove(bubble);
-                    results.AddRange(RecurseForBlank(nextWord, nextRemainingBubbles, i));
+                    results.AddRange(Recurse(nextPhrase, nextRemainingBubbles, currentWordToSolve));
                 }
             }
-            else if (currentLength == Blanks[i])
+            else if (currentWordLength == Blanks[currentWordToSolve])
             {
-                if (i == Blanks.Count - 1)
+                // If the word finished and there are no more blanks to solve, return the full phrase.
+                if (currentWordToSolve == Blanks.Count - 1)
                 {
-                    results.Add(word);
+                    results.Add(phrase);
                 }
                 else
                 {
-                    var nextWord = new List<Bubble>(word);
+                    // If the word is complete but there is another blank to solve, then insert a blank bubble to indicate a space and the start of a new word in the phrase.
+                    var nextWord = new List<Bubble>(phrase);
                     nextWord.Add(Bubble.BlankBubble());
 
-                    results.AddRange(RecurseForBlank(nextWord, remainingBubbles, i+1));
+                    results.AddRange(Recurse(nextWord, remainingBubbles, currentWordToSolve+1));
                 }
             }
 
             return results;
         }
 
-        public string GetString(List<Bubble> word)
+        public string GetString(List<Bubble> phrase)
         {
             StringBuilder sb = new StringBuilder();
-            foreach(var bubble in word)
+            foreach(var bubble in phrase)
             {
                 sb.Append(bubble.Letter);
             }
