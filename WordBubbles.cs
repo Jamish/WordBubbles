@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ConsoleApplication1
@@ -25,7 +26,7 @@ namespace ConsoleApplication1
         public List<string> Solve()
         {
             var potentialSolutions = Recurse(new List<Bubble>(), Bubbles);
-            return potentialSolutions.Select(phrase => GetString(phrase)).ToList();
+            return potentialSolutions.Select(phrase => Regex.Replace(GetString(phrase), @"\s+", " ").Trim()).Distinct().ToList();
         }
 
         private List<List<Bubble>> Recurse(List<Bubble> phrase, List<Bubble> remainingBubbles, int currentWordToSolve = 0)
