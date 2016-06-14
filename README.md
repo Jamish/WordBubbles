@@ -1,6 +1,8 @@
 # WordBubbles
 A .NET command line solver for the Word Bubbles app
 
+![Demonstration GIF](https://raw.githubusercontent.com/Jamish/WordBubbles/master/WordBubbles.gif)
+
 ## Disclaimer
 
 Another crappy solver that I wrote in less than 2 hours. This time, to solve Word Bubbles because a friend of mine kept asking for help in solving them ([iOS](https://itunes.apple.com/us/app/wordbubbles!/id922488002?mt=8) and [Android](https://play.google.com/store/apps/details?id=com.apprope.wordbubbles))
