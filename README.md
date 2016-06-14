@@ -1,5 +1,5 @@
 # WordBubbles
-A .NET command line solver for the Word Bubbles app
+A .NET command line solver for the Word Bubbles app, a word puzzle app where you must make one or more words by connecting adjacent letter bubbles (above/below, beside, or diagonally).
 
 ![Demonstration GIF](https://raw.githubusercontent.com/Jamish/WordBubbles/master/WordBubbles.gif)
 
