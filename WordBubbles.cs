@@ -25,18 +25,16 @@ namespace ConsoleApplication1
         public List<string> Solve()
         {
             var potentialSolutions = Recurse(new List<Bubble>(), Bubbles);
-            var solutions = potentialSolutions.Where(phrase => GetString(phrase).Split(' ').All(word => dictionary.Contains(word))).ToList();
-
-            return solutions.Select(phrase => GetString(phrase)).ToList();
+            return potentialSolutions.Select(phrase => GetString(phrase)).ToList();
         }
 
         private List<List<Bubble>> Recurse(List<Bubble> phrase, List<Bubble> remainingBubbles, int currentWordToSolve = 0)
         {
             var results = new List<List<Bubble>>();
-            var currentWordLength = GetString(phrase).Split(' ').Last().Length;
+            var currentWord = GetString(phrase).Split(' ').Last();
 
 
-            if (currentWordLength < Blanks[currentWordToSolve])
+            if (currentWord.Length < Blanks[currentWordToSolve])
             {
                 // If the word isn't finished, then find all potential bubbles that can form the next letter of the word.
                 var remainingAdjacentBubbles = remainingBubbles;
@@ -55,16 +53,16 @@ namespace ConsoleApplication1
                     results.AddRange(Recurse(nextPhrase, nextRemainingBubbles, currentWordToSolve));
                 }
             }
-            else if (currentWordLength == Blanks[currentWordToSolve])
+            else if (currentWord.Length == Blanks[currentWordToSolve] && dictionary.Contains(currentWord))
             {
-                // If the word finished and there are no more blanks to solve, return the full phrase.
+                // If there are no more blanks to solve, return the full phrase.
                 if (currentWordToSolve == Blanks.Count - 1)
                 {
                     results.Add(phrase);
                 }
                 else
                 {
-                    // If the word is complete but there is another blank to solve, then insert a blank bubble to indicate a space and the start of a new word in the phrase.
+                    // If there is another blank to solve, then insert a blank bubble to indicate a space and the start of a new word in the phrase.
                     var nextWord = new List<Bubble>(phrase);
                     nextWord.Add(Bubble.BlankBubble());
 
